@@ -6,9 +6,12 @@ Created on Wed Nov  1 22:05:37 2017
 """
 
 import logging.config
-
 import settings
+
 from flask import Flask, Blueprint
+from api.rest import api
+from api.bond.hotbonds import ns as hot_bonds_ns
+from api.bond.clonebonds import ns as clone_bonds_ns
 
 app = Flask(__name__)
 logging.config.fileConfig('logging.conf')
@@ -27,9 +30,9 @@ def initialize_app(flask_app):
     configure_app(flask_app)
 
     blueprint = Blueprint('api', __name__, url_prefix='/api')
-    #api.init_app(blueprint)
-    #api.add_namespace(blog_posts_namespace)
-    #api.add_namespace(blog_categories_namespace)
+    api.init_app(blueprint)
+    api.add_namespace(hot_bonds_ns)
+    api.add_namespace(clone_bonds_ns)
     flask_app.register_blueprint(blueprint)
 
     #db.init_app(flask_app)
